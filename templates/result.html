@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+
+<section>
+  <h2>Results</h2>
+
+  {% if raw_expr %}
+    <h3>Input</h3>
+    <p>{{ raw_expr }}</p>
+  {% endif %}
+
+  {% if steps %}
+    <h3>Steps</h3>
+    <ul>
+      {% for s in steps %}
+        <li>
+          <div>{{ s.text }}</div>
+          {% if s.latex %}
+            <div>$$ {{ s.latex }} $$</div>
+          {% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+
+  {% if audio_url %}
+    <h3>Listen</h3>
+    <audio controls>
+      <source src="{{ audio_url }}" type="audio/mpeg" />
+    </audio>
+  {% endif %}
+
+  <p><a href="{{ url_for('index') }}">Back</a></p>
+</section>
+
+{% endblock %}

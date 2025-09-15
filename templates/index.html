@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% block content %}
+
+<section>
+  <h2>Try it out</h2>
+  <p>Upload a handwritten math image or type an expression.</p>
+
+  <form method="POST" enctype="multipart/form-data">
+    <div>
+      <label>Upload Image (PNG/JPG)</label>
+      <input type="file" name="image" accept="image/png,image/jpeg" />
+    </div>
+
+    <div>
+      <label>Or Type Expression</label>
+      <input type="text" name="manual_expr" placeholder="e.g., x^2 - 5x + 6 = 0" value="{{ raw_expr or '' }}" />
+    </div>
+
+    <div>
+      <button type="submit">Solve</button>
+    </div>
+  </form>
+</section>
+
+{% if extracted_text %}
+<section>
+  <h3>OCR Extracted</h3>
+  <pre>{{ extracted_text }}</pre>
+</section>
+{% endif %}
+
+{% if parsed_latex or result_latex or solutions or explanation_text %}
+<section>
+  <h2>Results</h2>
+
+  {% if parsed_latex %}
+    <div>
+      <strong>Parsed Input:</strong>
+      <div>$$ {{ parsed_latex }} $$</div>
+    </div>
+  {% endif %}
+
+  {% if solutions %}
+    <div>
+      <strong>Solutions:</strong>
+      <ul>
+        {% for d in solutions %}
+        <li>
+          {% set inner = [] %}
+          {% for k, v in d.items() %}
+            {% set _ = inner.append('\\(' ~ k._repr_latex_()[2:-2] ~ ' = ' ~ v._repr_latex_()[2:-2] ~ '\\)') %}
+          {% endfor %}
+          {{ inner|join(', ')|safe }}
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+  {% elif result_latex %}
+    <div>
+      <strong>Result:</strong>
+      <div>$$ {{ result_latex }} $$</div>
+    </div>
+  {% endif %}
+
+  {% if explanation_text %}
+    <div>
+      <strong>Explanation (plain text):</strong>
+      <pre>{{ explanation_text }}</pre>
+    </div>
+  {% endif %}
+
+  {% if audio_url %}
+    <div>
+      <strong>Listen:</strong><br />
+      <audio controls>
+        <source src="{{ audio_url }}" type="audio/mpeg" />
+      </audio>
+    </div>
+  {% endif %}
+</section>
+{% endif %}
+
+{% endblock %}
