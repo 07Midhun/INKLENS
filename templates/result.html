@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Inklens AI | Step-by-Step Result</title>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <style>
+    body { background:#f5f7fa; font-family: Arial, sans-serif; color:#222; }
+    .container { max-width: 800px; margin: 40px auto; background:white; padding:30px; border-radius:16px; box-shadow:0 4px 12px rgba(0,0,0,0.1);}
+    h1 { color:#333; text-align:center; }
+    .step { margin:20px 0; padding:15px; border-left:4px solid #7a5cff; background:#f0f0ff; border-radius:8px;}
+    .step p { margin:5px 0; }
+    .audio { text-align:center; margin-top:25px;}
+    a.button { display:inline-block; background:#7a5cff; color:white; padding:10px 18px; border-radius:8px; text-decoration:none;}
+    a.button:hover { background:#573bcb; }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h1>🧮 Step-by-Step Solution</h1>
+  <p><strong>Equation:</strong> {{ raw_expr }}</p>
+
+  {% for s in steps %}
+  <div class="step">
+    <p><strong>Step {{ loop.index }}:</strong> {{ s.text }}</p>
+    <p>\\({{ s.latex }}\\)</p>
+  </div>
+  {% endfor %}
+
+  {% if audio_url %}
+  <div class="audio">
+    <h3>🔊 Listen to Explanation</h3>
+    <audio controls>
+      <source src="{{ audio_url }}" type="audio/mpeg">
+      Your browser does not support audio.
+    </audio>
+  </div>
+  {% endif %}
+
+  <div style="text-align:center;margin-top:30px;">
+    <a href="{{ url_for('index') }}" class="button">🔙 Back</a>
+  </div>
+</div>
+</body>
+</html>

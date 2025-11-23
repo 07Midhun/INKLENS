@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Inklens AI</title>
+</head>
+<body>
+    <h1>Inklens AI – Equation Analyzer</h1>
+
+    <form method="POST" enctype="multipart/form-data">
+        <p>Enter Equation:</p>
+        <input type="text" name="equation_text" placeholder="e.g., x^2 + 2*x + 1">
+        <br><br>
+        <p>Or Upload File (PDF/Image):</p>
+        <input type="file" name="file">
+        <br><br>
+        <button type="submit">Analyze</button>
+    </form>
+
+    <hr>
+    {% if results %}
+        <h2>Results:</h2>
+        <ul>
+            {% for r in results %}
+                <li><b>{{ r.equation }}</b> → {{ r.result }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+</body>
+</html>

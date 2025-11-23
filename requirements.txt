@@ -1,0 +1,6 @@
+Flask
+Pillow
+pytesseract
+sympy
+gTTS
+numpy
